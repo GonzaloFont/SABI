@@ -1,0 +1,9 @@
+{
+  "name": "sabi-tools",
+  "version": "1.0.0",
+  "description": "Herramientas SABI para Private Equity: búsqueda en vivo por navegador y cribado por lote de exports",
+  "author": {
+    "name": "Tu Fondo"
+  },
+  "keywords": ["private-equity", "sabi", "screening", "sourcing", "lookup", "informa"]
+}
