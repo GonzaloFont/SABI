@@ -1,51 +1,38 @@
-# sabi-tools
+# pe-fund-tools
 
-Plugin de Claude Cowork con dos formas de trabajar con datos de SABI
-(Informa/Bureau van Dijk) para un fondo de Private Equity.
+Marketplace personal/interno de plugins para Claude Cowork, empezando con
+el plugin de cribado de compañías SABI para Private Equity.
 
-SABI no tiene conector MCP oficial en Cowork, así que este plugin cubre
-las dos vías disponibles:
+## Estructura
 
-## Skills incluidas
+```
+pe-fund-tools/
+├── .claude-plugin/
+│   └── marketplace.json        ← catálogo del marketplace
+└── plugins/
+    └── sabi-screening/
+        ├── .claude-plugin/plugin.json
+        ├── skills/sabi-screening/SKILL.md
+        ├── commands/sabi-screen.md
+        └── README.md
+```
 
-### 1. `sabi-lookup` — Búsqueda en vivo (navegador)
-Cuando pides datos de una o varias empresas concretas ("búscame el EBITDA
-de Empresa X"), Claude abre Chrome, navega a SABI, busca la empresa y
-extrae los datos directamente de la ficha.
+## Cómo lo usa Claude Cowork
 
-**Requisito:** debes tener sesión iniciada en SABI en el navegador donde
-corre la extensión de Claude in Chrome. La URL de acceso ya está fijada
-en el skill (`https://sabi.informa.es/version-20230626-19-0/home.serv?product=SabiInforma&&setLanguage=es`).
-Claude nunca introduce usuario ni contraseña — si detecta que no hay
-sesión, te pedirá que inicies sesión tú manualmente y esperará
-confirmación.
+1. En Cowork, abre **Personalizar → Plugins**
+2. Click en **"+"** → **"Add marketplace"** → pega la URL de este
+   repositorio de GitHub (ej. `https://github.com/tu-usuario/pe-fund-tools`)
+   o el formato corto `tu-usuario/pe-fund-tools`
+3. Click en **"Sincronizar"**
+4. Verás el plugin **sabi-screening** disponible para instalar
+5. Instálalo y ya puedes usar `/sabi-screen` o dejar que se active
+   automáticamente al subir un export de SABI
 
-Comando: `/sabi-lookup [nombre o NIF de la empresa]`
+## Añadir más plugins al marketplace
 
-### 2. `sabi-screening` — Cribado por lote (archivo)
-Cuando tienes un export de SABI en Excel/CSV con muchas empresas y quieres
-aplicar los criterios de inversión del fondo (facturación, EBITDA, sector,
-geografía), sube el archivo y usa este skill para generar un scorecard.
-
-Comando: `/sabi-screen [ruta del archivo]`
-
-## Instalación
-
-1. Añade este repositorio como marketplace en Cowork:
-   **Personalizar → Plugins → "+" → Add marketplace** → pega la URL de
-   este repo de GitHub
-2. Sincroniza y luego instala el plugin **sabi-tools**
-3. Para `sabi-lookup`, asegúrate de tener **Claude in Chrome** conectado
-   (Ajustes → Conectores) y haber iniciado sesión en SABI en esa pestaña
-
-## Personalización
-
-- Edita `skills/sabi-lookup/SKILL.md` si tu URL de acceso a SABI cambia,
-  o para ajustar los campos por defecto a extraer
-- Edita `skills/sabi-screening/SKILL.md` para fijar tus criterios de
-  inversión por defecto (facturación, EBITDA, sector, geografía)
-
-También puedes pedirle a Claude directamente, tras instalar el plugin:
-"Personaliza sabi-lookup para que la URL de acceso sea [tu URL] y por
-defecto extraiga siempre ventas, EBITDA y número de empleados de los
-últimos 3 ejercicios."
+1. Crea una nueva carpeta en `plugins/tu-nuevo-plugin/`
+2. Añade su `.claude-plugin/plugin.json`, `skills/`, `commands/`, etc.
+3. Añade una entrada nueva al array `plugins` en
+   `.claude-plugin/marketplace.json`
+4. Haz commit y push — Cowork podrá sincronizar los cambios con el botón
+   "Actualizar" en el marketplace
